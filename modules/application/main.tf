@@ -23,11 +23,7 @@ resource "aws_launch_template" "this" {
   instance_type = var.instance_type
   user_data     = base64encode(local.user_data)
 
-  network_interfaces {
-    associate_public_ip_address = true
-    delete_on_termination       = true
-    security_groups             = [var.ssh_sg_id, var.private_http_sg_id]
-  }
+  vpc_security_group_ids = [var.ssh_sg_id, var.private_http_sg_id]
 }
 
 resource "aws_autoscaling_group" "this" {
