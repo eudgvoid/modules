@@ -95,7 +95,4 @@ resource "aws_lb_listener" "this" {
   }
 }
 
-resource "aws_autoscaling_attachment" "this" {
-  autoscaling_group_name = aws_autoscaling_group.this.id
-  lb_target_group_arn    = aws_lb_target_group.this.arn
-}
+
