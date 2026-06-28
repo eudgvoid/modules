@@ -38,7 +38,7 @@ resource "aws_autoscaling_group" "this" {
   max_size                  = 2
   target_group_arns         = [aws_lb_target_group.this.arn]
   health_check_type         = "ELB"
-  health_check_grace_period = 60
+  health_check_grace_period = 180
 
   launch_template {
     id      = aws_launch_template.this.id
@@ -95,4 +95,7 @@ resource "aws_lb_listener" "this" {
   }
 }
 
-
+resource "aws_autoscaling_attachment" "this" {
+  autoscaling_group_name = aws_autoscaling_group.this.id
+  lb_target_group_arn    = aws_lb_target_group.this.arn
+}
