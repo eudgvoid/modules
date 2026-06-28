@@ -31,11 +31,13 @@ resource "aws_launch_template" "this" {
 }
 
 resource "aws_autoscaling_group" "this" {
-  name                = "${var.name_prefix}-asg"
-  vpc_zone_identifier = var.subnet_ids
-  desired_capacity    = 2
-  min_size            = 2
-  max_size            = 2
+  name                      = "${var.name_prefix}-asg"
+  vpc_zone_identifier       = var.subnet_ids
+  desired_capacity          = 2
+  min_size                  = 2
+  max_size                  = 2
+  health_check_type         = "ELB"
+  health_check_grace_period = 60
 
   launch_template {
     id      = aws_launch_template.this.id
@@ -74,7 +76,7 @@ resource "aws_lb_target_group" "this" {
     path                = "/"
     protocol            = "HTTP"
     matcher             = "200"
-    interval            = 30
+    interval            = 10
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
